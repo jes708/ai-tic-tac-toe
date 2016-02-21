@@ -65,6 +65,7 @@ def ai_turn(board, mode)
     end
 
     move(board, position, current_player(board))
+    sleep(0.3)
     puts "Your turn"
     display_board(board)
 end
@@ -109,10 +110,9 @@ def turn(board)
 end
 
 def won?(board)
-  win_combination = WIN_COMBINATIONS.select do |line|
+  WIN_COMBINATIONS.detect do |line|
     line.all? { |pos| board[pos] == "X" } || line.all? { |pos| board[pos] == "O" }
   end
-  win_combination != [] ? win_combination.flatten : false
 end
 
 def full?(board)

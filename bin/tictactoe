@@ -4,7 +4,7 @@ require_relative '../lib/tic_tac_toe'
 
 board = initialized_board
 
-puts "Welcome to Tic Tac Toe!"
+puts "Welcome to Jonathan Schwarz's Tic Tac Toe!"
 display_board(board)
 
 # Make sure to execute #play below
