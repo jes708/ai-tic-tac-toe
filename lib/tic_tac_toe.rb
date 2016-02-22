@@ -49,30 +49,20 @@ def current_player(board)
 end
 
 def ai_turn(board, mode)
-  case mode
-  when 1
-    options = [*1..9]
-  else
-    options = medium(board)
-  end
-    
-    narrowed = (options.reject {|pos| position_taken?(board, (pos - 1))})
-    
-    if mode == 3
-      position = hard(narrowed)
-    else
-      position = narrowed.sample
-    end
-
-    move(board, position, current_player(board))
-    sleep(0.3)
-    puts "Your turn"
-    display_board(board)
+  mode == 1 ? options = [*1..9] : options = medium(board)
+  narrowed = (options.reject {|pos| position_taken?(board, (pos - 1))})
+  mode == 3 ? position = hard(narrowed) :position = narrowed.sample
+  move(board, position, current_player(board))
+  sleep(0.5)
+  puts "O is thinking..."
+  sleep(1)
+  display_board(board)
 end
 
 def medium(board)
   options = WIN_COMBINATIONS.select do |line|
-    line.one? {|num| board[num] == " "} && ( line.none? {|num| board[num] == "X"} || line.none? {|num| board[num] == "O"} )
+    line.one? {|num| board[num] == " "} &&
+    (line.none? {|num| board[num] == "X"} || line.none? {|num| board[num] == "O"})
   end
   if options.none?
     options = WIN_COMBINATIONS.select do |line|
@@ -97,7 +87,7 @@ end
 
 def turn(board)
   loop do 
-      puts "Please enter 1-9:"
+      puts "#{current_player(board)}'s turn. Please enter 1-9:"
       position = gets.strip
     if valid_move?(board, position)
       move(board, position, current_player(board))
@@ -156,11 +146,7 @@ def play(board, mode)
     if mode == 4
       turn(board)
     else
-      if current_player(board) == "X"
-        turn(board)
-      else 
-        ai_turn(board, mode)
-      end
+      current_player(board) == "X" ? turn(board) : ai_turn(board, mode)
     end 
   end
   if won?(board)
