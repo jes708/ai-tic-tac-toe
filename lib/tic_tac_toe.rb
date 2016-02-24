@@ -151,7 +151,7 @@ def play(board, mode)
   if won?(board)
     puts "Congratulations #{winner(board)}!"
   elsif draw?(board)
-    puts "Cats Game!"
+    puts "Zounds! It's a tie!"
   end
   play_again
 end
