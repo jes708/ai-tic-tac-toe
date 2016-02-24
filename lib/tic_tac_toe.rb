@@ -22,11 +22,11 @@ def initialized_board
 end
 
 def move(board, location, character = "X")
-  board[(location)] = character
+  board[location] = character
 end
 
 def position_taken?(board, position)
-  !(board[position] == " ")
+  board[position] != " "
 end
 
 def valid_move? (board, position)
