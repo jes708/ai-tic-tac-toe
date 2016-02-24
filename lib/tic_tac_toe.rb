@@ -22,15 +22,14 @@ def initialized_board
 end
 
 def move(board, location, character = "X")
-  board[(location.to_i - 1)] = character
+  board[(location)] = character
 end
 
 def position_taken?(board, position)
-  !((board[position] == " ") || (board[position] == "") || (board[position] == nil))
+  !(board[position] == " ")
 end
 
 def valid_move? (board, position)
-  position = position.to_i - 1
   (position.between?(0,8)) && (position_taken?(board, position) == false)
 end
 
@@ -49,8 +48,8 @@ def current_player(board)
 end
 
 def ai_turn(board, mode)
-  mode == 1 ? options = [*1..9] : options = medium(board)
-  narrowed = (options.reject {|pos| position_taken?(board, (pos - 1))})
+  mode == 1 ? options = [*0..8] : options = medium(board)
+  narrowed = (options.reject {|pos| position_taken?(board, (pos))})
   mode == 3 ? position = hard(narrowed) :position = narrowed.sample
   move(board, position, current_player(board))
   sleep(0.5)
@@ -70,14 +69,14 @@ def medium(board)
     end
   end
 
-  options.flatten.map {|el| el + 1}
+  options.flatten
 end
 
 def hard(narrowed)
-  if narrowed.include?(5)
-    position = 5
+  if narrowed.include?(4)
+    position = 4
   else
-    position = (narrowed.select {|el| [1, 3, 7, 9].include?(el)}).sample
+    position = (narrowed.select {|el| [0, 2, 6, 8].include?(el)}).sample
   end
   if position.nil?
     position = narrowed.sample
@@ -88,7 +87,7 @@ end
 def turn(board)
   loop do 
       puts "#{current_player(board)}'s turn. Please enter 1-9:"
-      position = gets.strip
+      position = gets.strip.to_i - 1
     if valid_move?(board, position)
       move(board, position, current_player(board))
       display_board(board)
