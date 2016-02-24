@@ -50,7 +50,7 @@ end
 def ai_turn(board, mode)
   mode == 1 ? options = [*0..8] : options = medium(board)
   narrowed = (options.reject {|pos| position_taken?(board, (pos))})
-  mode == 3 ? position = hard(narrowed) :position = narrowed.sample
+  mode == 3 ? position = hard(narrowed) : position = narrowed.sample
   move(board, position, current_player(board))
   sleep(0.5)
   puts "O is thinking..."
